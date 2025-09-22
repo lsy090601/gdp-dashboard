@@ -324,35 +324,37 @@ with tab4:
     })
 
     # ... (그래프랑 설명 부분 그대로)
+# ========================
+# 💡 우리가 할 수 있는 일 (줄 긋기 체크리스트)
+# ========================
+st.subheader("💡 우리가 할 수 있는 일")
 
-    # ========================
-    # 💡 우리가 할 수 있는 일 (투두 리스트)
-    # ========================
-    st.subheader("💡 우리가 할 수 있는 일")
+todo_options = [
+    "학교 내 기후 행동 동아리 참여",
+    "또래 상담 프로그램 운영",
+    "지역사회 환경 보호 활동",
+    "SNS를 통한 인식 확산",
+    "친환경 교통수단 이용하기",
+    "학교/집에서 에너지 절약 실천",
+    "기후 관련 캠페인 기획 및 참여",
+    "탄소 발자국 줄이는 생활습관 만들기"
+]
 
-    todo_options = [
-        "학교 내 기후 행동 동아리 참여",
-        "또래 상담 프로그램 운영",
-        "지역사회 환경 보호 활동",
-        "SNS를 통한 인식 확산",
-        "친환경 교통수단 이용하기",
-        "학교/집에서 에너지 절약 실천",
-        "기후 관련 캠페인 기획 및 참여",
-        "탄소 발자국 줄이는 생활습관 만들기"
-    ]
-
-    cols = st.columns(2)
-    for i, option in enumerate(todo_options):
-        col = cols[i % 2]
-        with col:
-            checked = st.checkbox(option, key=f"todo_{i}")
-            if checked:
-                st.markdown(
-                    f"<span style='color:gray; text-decoration:line-through;'>{option} ✅</span>", 
-                    unsafe_allow_html=True
-                )
-            else:
-                st.markdown(f"<span style='color:#1e3a8a;'>{option}</span>", unsafe_allow_html=True)
+for i, option in enumerate(todo_options):
+    col1, col2 = st.columns([0.1, 0.9])  # 체크박스 좁게, 텍스트 넓게
+    with col1:
+        checked = st.checkbox("", key=f"todo_{i}")  # 빈 라벨
+    with col2:
+        if checked:
+            st.markdown(
+                f"<span style='color:gray; text-decoration:line-through;'>{option}</span>",
+                unsafe_allow_html=True
+            )
+        else:
+            st.markdown(
+                f"<span style='color:#1e3a8a;'>{option}</span>",
+                unsafe_allow_html=True
+            )
 
 
 # ========================
