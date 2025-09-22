@@ -311,33 +311,48 @@ with tab4:
         """)
 
 # ========================
-# 💡 우리가 할 수 있는 일 (예쁜 To-Do 리스트)
+# TAB 4: 미래 시나리오
 # ========================
-st.subheader("💡 우리가 할 수 있는 일")
+with tab4:
+    st.header("📈 미래 시나리오와 전망")
 
-todo_options = [
-    "학교 내 기후 행동 동아리 참여",
-    "또래 상담 프로그램 운영",
-    "지역사회 환경 보호 활동",
-    "SNS를 통한 인식 확산",
-    "친환경 교통수단 이용하기",
-    "학교/집에서 에너지 절약 실천",
-    "기후 관련 캠페인 기획 및 참여",
-    "탄소 발자국 줄이는 생활습관 만들기"
-]
+    scenarios = pd.DataFrame({
+        'year': [2024, 2030, 2040, 2050, 2070, 2100],
+        '낙관적(cm)': [11, 13, 16, 20, 28, 43],
+        '중간(cm)': [11, 14, 19, 26, 40, 65],
+        '비관적(cm)': [11, 15, 23, 35, 58, 110]
+    })
 
-# 👉 2열로 나눠서 좀 더 깔끔하게
-cols = st.columns(2)
+    # ... (그래프랑 설명 부분 그대로)
 
-for i, option in enumerate(todo_options):
-    col = cols[i % 2]   # 왼쪽/오른쪽 번갈아 배치
-    with col:
-        checked = st.checkbox(option, key=f"todo_{i}")
-        # 체크 시 취소선 + 색상 강조
-        if checked:
-            st.markdown(f"<span style='color:gray; text-decoration:line-through;'>{option} ✅</span>", unsafe_allow_html=True)
-        else:
-            st.markdown(f"<span style='color:#1e3a8a;'>{option}</span>", unsafe_allow_html=True)
+    # ========================
+    # 💡 우리가 할 수 있는 일 (투두 리스트)
+    # ========================
+    st.subheader("💡 우리가 할 수 있는 일")
+
+    todo_options = [
+        "학교 내 기후 행동 동아리 참여",
+        "또래 상담 프로그램 운영",
+        "지역사회 환경 보호 활동",
+        "SNS를 통한 인식 확산",
+        "친환경 교통수단 이용하기",
+        "학교/집에서 에너지 절약 실천",
+        "기후 관련 캠페인 기획 및 참여",
+        "탄소 발자국 줄이는 생활습관 만들기"
+    ]
+
+    cols = st.columns(2)
+    for i, option in enumerate(todo_options):
+        col = cols[i % 2]
+        with col:
+            checked = st.checkbox(option, key=f"todo_{i}")
+            if checked:
+                st.markdown(
+                    f"<span style='color:gray; text-decoration:line-through;'>{option} ✅</span>", 
+                    unsafe_allow_html=True
+                )
+            else:
+                st.markdown(f"<span style='color:#1e3a8a;'>{option}</span>", unsafe_allow_html=True)
 
 
 # ========================
