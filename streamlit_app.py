@@ -311,7 +311,7 @@ with tab4:
         """)
 
 # ========================
-# 💡 우리가 할 수 있는 일 (투두 리스트)
+# 💡 우리가 할 수 있는 일 (예쁜 To-Do 리스트)
 # ========================
 st.subheader("💡 우리가 할 수 있는 일")
 
@@ -326,12 +326,18 @@ todo_options = [
     "탄소 발자국 줄이는 생활습관 만들기"
 ]
 
-for option in todo_options:
-    checked = st.checkbox(option, key=option)
-    if checked:
-        st.markdown(f"- ~~{option}~~ ✅")
-    else:
-        st.markdown(f"- {option}")
+# 👉 2열로 나눠서 좀 더 깔끔하게
+cols = st.columns(2)
+
+for i, option in enumerate(todo_options):
+    col = cols[i % 2]   # 왼쪽/오른쪽 번갈아 배치
+    with col:
+        checked = st.checkbox(option, key=f"todo_{i}")
+        # 체크 시 취소선 + 색상 강조
+        if checked:
+            st.markdown(f"<span style='color:gray; text-decoration:line-through;'>{option} ✅</span>", unsafe_allow_html=True)
+        else:
+            st.markdown(f"<span style='color:#1e3a8a;'>{option}</span>", unsafe_allow_html=True)
 
 
 # ========================
