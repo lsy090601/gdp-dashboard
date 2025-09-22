@@ -310,158 +310,144 @@ with tab4:
         - **인프라 붕괴:** 항만, 공항 기능 상실
         """)
 
-# ========================
-# TAB 4: 미래 시나리오
-# ========================
-with tab4:
-    st.header("📈 미래 시나리오와 전망")
+    # 💡 우리가 할 수 있는 일 (탭4에서만 표시)
+    st.markdown("---")  # 구분선 추가
+    st.subheader("💡 우리가 할 수 있는 일")
+    st.markdown("##### 기후변화 대응을 위한 청소년 실천 가이드 ✨")
 
-    scenarios = pd.DataFrame({
-        'year': [2024, 2030, 2040, 2050, 2070, 2100],
-        '낙관적(cm)': [11, 13, 16, 20, 28, 43],
-        '중간(cm)': [11, 14, 19, 26, 40, 65],
-        '비관적(cm)': [11, 15, 23, 35, 58, 110]
-    })
+    # 카테고리별로 정리
+    action_categories = {
+        "🏫 학교에서": [
+            ("기후 행동 동아리 참여하기", "climate_club"),
+            ("또래 상담 프로그램 운영하기", "peer_counseling"),
+            ("친구들과 환경 캠페인 기획하기", "school_campaign"),
+            ("학교 내 에너지 절약 실천하기", "school_energy")
+        ],
+        "🌍 지역사회에서": [
+            ("지역 환경보호 활동 참여하기", "community_env"),
+            ("해안 정화 활동 참여하기", "beach_cleanup"),
+            ("지역 기후 모니터링 활동하기", "climate_monitoring"),
+            ("환경 관련 자원봉사 참여하기", "env_volunteer")
+        ],
+        "📱 개인 실천": [
+            ("친환경 교통수단 이용하기", "eco_transport"),
+            ("탄소발자국 줄이는 생활습관 만들기", "carbon_footprint"),
+            ("SNS를 통한 기후변화 인식 확산하기", "sns_awareness"),
+            ("환경 친화적 소비 실천하기", "eco_consumption")
+        ]
+    }
 
-    # ... (그래프랑 설명 부분 그대로)
+    # CSS 스타일 추가
+    st.markdown("""
+    <style>
+    .checklist-container {
+        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        padding: 20px;
+        border-radius: 15px;
+        border: 2px solid #38bdf8;
+        margin: 10px 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .category-header {
+        color: #0369a1;
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #38bdf8;
+        padding-bottom: 5px;
+    }
+    .completed-item {
+        background-color: #dcfce7;
+        color: #15803d;
+        padding: 8px 12px;
+        border-radius: 8px;
+        margin: 5px 0;
+        border-left: 4px solid #22c55e;
+        text-decoration: line-through;
+        opacity: 0.8;
+    }
+    .pending-item {
+        background-color: #ffffff;
+        color: #1e40af;
+        padding: 8px 12px;
+        border-radius: 8px;
+        margin: 5px 0;
+        border-left: 4px solid #3b82f6;
+        transition: all 0.3s ease;
+    }
+    .pending-item:hover {
+        background-color: #f0f9ff;
+        transform: translateX(5px);
+    }
+    </style>
+    """, unsafe_allow_html=True)
 
-# 💡 우리가 할 수 있는 일 (개선된 버전)
-st.markdown("---")  # 구분선 추가
-st.subheader("💡 우리가 할 수 있는 일")
-st.markdown("##### 기후변화 대응을 위한 청소년 실천 가이드 ✨")
+    # 진행률 계산
+    total_items = sum(len(items) for items in action_categories.values())
+    completed_count = 0
 
-# 카테고리별로 정리
-action_categories = {
-    "🏫 학교에서": [
-        ("기후 행동 동아리 참여하기", "climate_club"),
-        ("또래 상담 프로그램 운영하기", "peer_counseling"),
-        ("친구들과 환경 캠페인 기획하기", "school_campaign"),
-        ("학교 내 에너지 절약 실천하기", "school_energy")
-    ],
-    "🌍 지역사회에서": [
-        ("지역 환경보호 활동 참여하기", "community_env"),
-        ("해안 정화 활동 참여하기", "beach_cleanup"),
-        ("지역 기후 모니터링 활동하기", "climate_monitoring"),
-        ("환경 관련 자원봉사 참여하기", "env_volunteer")
-    ],
-    "📱 개인 실천": [
-        ("친환경 교통수단 이용하기", "eco_transport"),
-        ("탄소발자국 줄이는 생활습관 만들기", "carbon_footprint"),
-        ("SNS를 통한 기후변화 인식 확산하기", "sns_awareness"),
-        ("환경 친화적 소비 실천하기", "eco_consumption")
-    ]
-}
-
-# CSS 스타일 추가
-st.markdown("""
-<style>
-.checklist-container {
-    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-    padding: 20px;
-    border-radius: 15px;
-    border: 2px solid #38bdf8;
-    margin: 10px 0;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-.category-header {
-    color: #0369a1;
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 15px;
-    border-bottom: 2px solid #38bdf8;
-    padding-bottom: 5px;
-}
-.completed-item {
-    background-color: #dcfce7;
-    color: #15803d;
-    padding: 8px 12px;
-    border-radius: 8px;
-    margin: 5px 0;
-    border-left: 4px solid #22c55e;
-    text-decoration: line-through;
-    opacity: 0.8;
-}
-.pending-item {
-    background-color: #ffffff;
-    color: #1e40af;
-    padding: 8px 12px;
-    border-radius: 8px;
-    margin: 5px 0;
-    border-left: 4px solid #3b82f6;
-    transition: all 0.3s ease;
-}
-.pending-item:hover {
-    background-color: #f0f9ff;
-    transform: translateX(5px);
-}
-</style>
-""", unsafe_allow_html=True)
-
-# 진행률 계산
-total_items = sum(len(items) for items in action_categories.values())
-completed_count = 0
-
-# 각 카테고리별로 체크리스트 생성
-for category, items in action_categories.items():
-    st.markdown(f'<div class="checklist-container">', unsafe_allow_html=True)
-    st.markdown(f'<div class="category-header">{category}</div>', unsafe_allow_html=True)
-    
-    category_completed = 0
-    for item_text, item_key in items:
-        col1, col2 = st.columns([0.08, 0.92])
+    # 각 카테고리별로 체크리스트 생성
+    for category, items in action_categories.items():
+        st.markdown(f'<div class="checklist-container">', unsafe_allow_html=True)
+        st.markdown(f'<div class="category-header">{category}</div>', unsafe_allow_html=True)
         
-        with col1:
-            checked = st.checkbox("", key=item_key, label_visibility="collapsed")
-            if checked:
-                completed_count += 1
-                category_completed += 1
+        category_completed = 0
+        for item_text, item_key in items:
+            col1, col2 = st.columns([0.08, 0.92])
+            
+            with col1:
+                checked = st.checkbox("", key=item_key, label_visibility="collapsed")
+                if checked:
+                    completed_count += 1
+                    category_completed += 1
+            
+            with col2:
+                if checked:
+                    st.markdown(
+                        f'<div class="completed-item">✅ {item_text}</div>',
+                        unsafe_allow_html=True
+                    )
+                else:
+                    st.markdown(
+                        f'<div class="pending-item">⚪ {item_text}</div>',
+                        unsafe_allow_html=True
+                    )
         
-        with col2:
-            if checked:
-                st.markdown(
-                    f'<div class="completed-item">✅ {item_text}</div>',
-                    unsafe_allow_html=True
-                )
-            else:
-                st.markdown(
-                    f'<div class="pending-item">⚪ {item_text}</div>',
-                    unsafe_allow_html=True
-                )
-    
-    # 카테고리별 진행률 표시
-    category_progress = category_completed / len(items) * 100
-    st.progress(category_progress / 100)
-    st.caption(f"진행률: {category_completed}/{len(items)} ({category_progress:.0f}%)")
-    
-    st.markdown('</div>', unsafe_allow_html=True)
+        # 카테고리별 진행률 표시
+        category_progress = category_completed / len(items) * 100
+        st.progress(category_progress / 100)
+        st.caption(f"진행률: {category_completed}/{len(items)} ({category_progress:.0f}%)")
+        
+        st.markdown('</div>', unsafe_allow_html=True)
 
-# 전체 진행률 및 격려 메시지
-st.markdown("---")
-total_progress = completed_count / total_items * 100
+    # 전체 진행률 및 격려 메시지
+    st.markdown("---")
+    total_progress = completed_count / total_items * 100
 
-col1, col2, col3 = st.columns(3)
-with col1:
-    st.metric("완료한 실천사항", f"{completed_count}개", f"총 {total_items}개 중")
-with col2:
-    st.metric("전체 진행률", f"{total_progress:.1f}%", "🌱")
-with col3:
-    if total_progress == 0:
-        st.metric("실천 레벨", "시작 준비 🌱", "첫 걸음을 내딛어보세요!")
-    elif total_progress < 30:
-        st.metric("실천 레벨", "새싹 🌱", "좋은 시작이에요!")
-    elif total_progress < 60:
-        st.metric("실천 레벨", "성장 🌿", "꾸준히 실천하고 있어요!")
-    elif total_progress < 90:
-        st.metric("실천 레벨", "꽃봄 🌸", "정말 대단해요!")
-    else:
-        st.metric("실천 레벨", "지구지킴이 🌍", "완벽한 실천가예요!")
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("완료한 실천사항", f"{completed_count}개", f"총 {total_items}개 중")
+    with col2:
+        st.metric("전체 진행률", f"{total_progress:.1f}%", "🌱")
+    with col3:
+        if total_progress == 0:
+            st.metric("실천 레벨", "시작 준비 🌱", "첫 걸음을 내딛어보세요!")
+        elif total_progress < 30:
+            st.metric("실천 레벨", "새싹 🌱", "좋은 시작이에요!")
+        elif total_progress < 60:
+            st.metric("실천 레벨", "성장 🌿", "꾸준히 실천하고 있어요!")
+        elif total_progress < 90:
+            st.metric("실천 레벨", "꽃봄 🌸", "정말 대단해요!")
+        else:
+            st.metric("실천 레벨", "지구지킴이 🌍", "완벽한 실천가예요!")
 
-# 격려 메시지
-if completed_count > 0:
-    st.success(f"🎉 {completed_count}개의 실천사항을 완료하셨네요! 지구를 위한 소중한 실천에 감사드려요.")
+    # 격려 메시지
+    if completed_count > 0:
+        st.success(f"🎉 {completed_count}개의 실천사항을 완료하셨네요! 지구를 위한 소중한 실천에 감사드려요.")
 
-if completed_count >= total_items:
-    st.balloons()  # 모든 항목 완료 시 축하 효과
+    if completed_count >= total_items:
+        st.balloons()  # 모든 항목 완료 시 축하 효과
+
 # ========================
 # 사이드바
 # ========================
