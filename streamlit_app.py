@@ -5,7 +5,6 @@
 - 해수면 상승 추이 시각화
 - 피해 지역 지도 표시 (+ 뉴스 기사 토글)
 - 청소년 정신건강 영향 데이터
-- 해수면 상승 시뮬레이션 게임 추가! 🎮
 ================================================
 """
 
@@ -41,100 +40,6 @@ st.markdown("""
         border-radius: 0.5rem;
         border-left: 4px solid #3b82f6;
     }
-    /* 게임용 스타일 */
-    .game-container {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 25px;
-        border-radius: 20px;
-        margin: 15px 0;
-        color: white;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-    }
-    .control-panel {
-        background: rgba(255,255,255,0.1);
-        backdrop-filter: blur(10px);
-        border-radius: 15px;
-        padding: 20px;
-        margin: 10px 0;
-        border: 1px solid rgba(255,255,255,0.2);
-    }
-    .result-good {
-        background: linear-gradient(135deg, #4CAF50, #45a049);
-        color: white;
-        padding: 20px;
-        border-radius: 15px;
-        margin: 10px 0;
-        text-align: center;
-        font-size: 1.2em;
-        box-shadow: 0 5px 15px rgba(76,175,80,0.3);
-    }
-    .result-bad {
-        background: linear-gradient(135deg, #f44336, #da190b);
-        color: white;
-        padding: 20px;
-        border-radius: 15px;
-        margin: 10px 0;
-        text-align: center;
-        font-size: 1.2em;
-        box-shadow: 0 5px 15px rgba(244,67,54,0.3);
-    }
-    .result-neutral {
-        background: linear-gradient(135deg, #ff9800, #f57c00);
-        color: white;
-        padding: 20px;
-        border-radius: 15px;
-        margin: 10px 0;
-        text-align: center;
-        font-size: 1.2em;
-        box-shadow: 0 5px 15px rgba(255,152,0,0.3);
-    }
-    .score-display {
-        font-size: 3em;
-        font-weight: bold;
-        text-align: center;
-        margin: 20px 0;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-    }
-    /* 체크리스트 스타일 */
-    .checklist-container {
-        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-        padding: 20px;
-        border-radius: 15px;
-        border: 2px solid #38bdf8;
-        margin: 10px 0;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    .category-header {
-        color: #0369a1;
-        font-size: 1.2rem;
-        font-weight: bold;
-        margin-bottom: 15px;
-        border-bottom: 2px solid #38bdf8;
-        padding-bottom: 5px;
-    }
-    .completed-item {
-        background-color: #dcfce7;
-        color: #15803d;
-        padding: 8px 12px;
-        border-radius: 8px;
-        margin: 5px 0;
-        border-left: 4px solid #22c55e;
-        text-decoration: line-through;
-        opacity: 0.8;
-    }
-    .pending-item {
-        background-color: #ffffff;
-        color: #1e40af;
-        padding: 8px 12px;
-        border-radius: 8px;
-        margin: 5px 0;
-        border-left: 4px solid #3b82f6;
-        transition: all 0.3s ease;
-    }
-    .pending-item:hover {
-        background-color: #f0f9ff;
-        transform: translateX(5px);
-    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -146,14 +51,13 @@ st.markdown("### 해수면 상승이 청소년 정신건강과 일상생활에 �
 st.caption("데이터 출처: 기획재정부, 해양수산부, 국립해양조사원")
 
 # ========================
-# 탭 생성 (게임 탭 추가!)
+# 탭 생성
 # ========================
-tab1, tab2, tab3, tab4, tab5 = st.tabs([
+tab1, tab2, tab3, tab4 = st.tabs([
     "📊 해수면 상승 추이", 
     "🗺️ 피해 지역 지도", 
     "😰 청소년 정신건강 영향",
-    "📈 미래 시나리오",
-    "🎮 시뮬레이션 게임"  # 새 탭!
+    "📈 미래 시나리오"
 ])
 
 # ========================
@@ -263,6 +167,7 @@ with tab2:
         get_color=[0,0,0,255], get_alignment_baseline="'bottom'"
     )
 
+    # ⭐ 지도 보이게 map_style=None
     r = pdk.Deck(
         layers=[scatter_layer, text_layer],
         initial_view_state=view_state,
@@ -406,293 +311,22 @@ with tab4:
         """)
 
 # ========================
-# TAB 5: 시뮬레이션 게임 🎮
+# TAB 4: 미래 시나리오
 # ========================
-with tab5:
-    st.header("🎮 해수면 상승 시뮬레이션 게임")
-    st.markdown("### 🌍 당신의 선택이 2050년 한국의 미래를 결정합니다!")
-    
-    # 게임 설명
-    with st.expander("🎯 게임 규칙 & 목표"):
-        st.markdown("""
-        **🎯 목표**: 2050년까지 해수면 상승을 최소화하여 한국을 보호하세요!
-        
-        **🎮 플레이 방법**:
-        1. 아래 슬라이더와 선택지로 정책을 결정하세요
-        2. 실시간으로 해수면 상승 예측이 업데이트됩니다
-        3. 최종 점수와 등급을 확인하세요
-        
-        **🏆 등급 기준**:
-        - 🌟 지구수호자: 15cm 미만
-        - 🌿 환경지킴이: 15-20cm
-        - ⚠️ 관심필요: 20-30cm  
-        - 🚨 위험상황: 30cm 이상
-        """)
+with tab4:
+    st.header("📈 미래 시나리오와 전망")
 
-    # 컨트롤 패널
-    st.markdown('<div class="control-panel">', unsafe_allow_html=True)
-    st.markdown("## 🎛️ 정책 컨트롤 패널")
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.markdown("### 🏭 온실가스 정책")
-        carbon_reduction = st.slider(
-            "탄소 배출량 감축 목표 (%)", 
-            0, 80, 40, 5,
-            help="2024년 대비 2050년까지의 감축률"
-        )
-        
-        renewable_energy = st.slider(
-            "재생에너지 비율 목표 (%)", 
-            20, 100, 60, 5,
-            help="2050년 전체 에너지 중 재생에너지 비율"
-        )
-        
-        carbon_tax = st.slider(
-            "탄소세 수준 (톤당 원)", 
-            0, 100000, 30000, 10000,
-            format="%d원",
-            help="탄소 1톤 배출 시 부과되는 세금"
-        )
+    scenarios = pd.DataFrame({
+        'year': [2024, 2030, 2040, 2050, 2070, 2100],
+        '낙관적(cm)': [11, 13, 16, 20, 28, 43],
+        '중간(cm)': [11, 14, 19, 26, 40, 65],
+        '비관적(cm)': [11, 15, 23, 35, 58, 110]
+    })
 
-    with col2:
-        st.markdown("### 🌊 적응 정책")
-        sea_wall_investment = st.slider(
-            "해안 방어시설 투자 (조원)", 
-            0, 50, 20, 5,
-            format="%d조원",
-            help="방파제, 해안제방 등 건설 투자"
-        )
-        
-        ecosystem_restoration = st.slider(
-            "생태계 복원 면적 (%)", 
-            0, 100, 50, 10,
-            help="갯벌, 습지 등 자연 해안 복원"
-        )
-        
-        # 정책 선택지
-        st.markdown("### 📋 추가 정책 선택")
-        policies = st.multiselect(
-            "시행할 정책을 선택하세요:",
-            [
-                "전기차 의무화 (2030년부터)",
-                "건물 에너지효율 강화",
-                "탄소중립도시 조성",
-                "국제 기후협력 강화",
-                "녹색기술 R&D 투자 확대",
-                "기후교육 의무화"
-            ],
-            default=["건물 에너지효율 강화", "탄소중립도시 조성"]
-        )
+    # ... (그래프랑 설명 부분 그대로)
 
-    st.markdown('</div>', unsafe_allow_html=True)
-
-    # 계산 로직
-    def calculate_sea_level_rise(carbon_reduction, renewable_energy, carbon_tax, 
-                                sea_wall_investment, ecosystem_restoration, policies):
-        # 기본 상승량 (현재 추세)
-        base_rise = 26  # 2050년 예상 26cm
-        
-        # 온실가스 정책 효과
-        carbon_effect = -(carbon_reduction * 0.15)  # 최대 12cm 감축
-        renewable_effect = -(renewable_energy * 0.08)  # 최대 8cm 감축
-        tax_effect = -(carbon_tax / 10000 * 0.8)  # 최대 8cm 감축
-        
-        # 적응 정책 효과 (직접적 상승량 감소는 아니지만 피해 완화)
-        adaptation_bonus = (sea_wall_investment + ecosystem_restoration) / 100 * 2
-        
-        # 추가 정책 보너스
-        policy_bonus = len(policies) * 0.5
-        
-        # 최종 계산
-        final_rise = base_rise + carbon_effect + renewable_effect + tax_effect
-        final_rise = max(8, final_rise)  # 최소 8cm (물리적 한계)
-        
-        # 적응점수 별도 계산
-        adaptation_score = adaptation_bonus + policy_bonus
-        
-        return final_rise, adaptation_score
-
-    # 실시간 계산
-    sea_level_2050, adaptation_score = calculate_sea_level_rise(
-        carbon_reduction, renewable_energy, carbon_tax, 
-        sea_wall_investment, ecosystem_restoration, policies
-    )
-
-    # 결과 시각화
-    st.markdown("## 📊 시뮬레이션 결과")
-    
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        st.markdown('<div class="score-display">🌊</div>', unsafe_allow_html=True)
-        st.metric("2050년 해수면 상승", f"{sea_level_2050:.1f}cm", 
-                 f"{sea_level_2050-26:.1f}cm vs 현재 추세")
-    
-    with col2:
-        st.markdown('<div class="score-display">🛡️</div>', unsafe_allow_html=True)
-        st.metric("적응 역량 점수", f"{adaptation_score:.1f}점", 
-                 "방어력 지수")
-    
-    with col3:
-        # 종합 점수 계산
-        if sea_level_2050 < 15:
-            grade = "🌟 지구수호자"
-            grade_class = "result-good"
-        elif sea_level_2050 < 20:
-            grade = "🌿 환경지킴이"
-            grade_class = "result-good"
-        elif sea_level_2050 < 30:
-            grade = "⚠️ 관심필요"
-            grade_class = "result-neutral"
-        else:
-            grade = "🚨 위험상황"
-            grade_class = "result-bad"
-        
-        st.markdown('<div class="score-display">🏆</div>', unsafe_allow_html=True)
-        st.metric("최종 등급", grade.split()[1], grade.split()[0])
-
-    # 시나리오 그래프
-    years = [2024, 2030, 2035, 2040, 2045, 2050]
-    current_trend = [11, 14, 17, 21, 23.5, 26]
-    your_scenario = [11, 11 + (sea_level_2050-11)*0.2, 11 + (sea_level_2050-11)*0.4, 
-                    11 + (sea_level_2050-11)*0.7, 11 + (sea_level_2050-11)*0.9, sea_level_2050]
-
-    fig_sim = go.Figure()
-    
-    # 현재 추세
-    fig_sim.add_trace(go.Scatter(
-        x=years, y=current_trend, mode='lines+markers',
-        name='현재 추세 (정책 변화 없음)', line=dict(color='#ff6b6b', width=3),
-        marker=dict(size=8)
-    ))
-    
-    # 사용자 시나리오
-    fig_sim.add_trace(go.Scatter(
-        x=years, y=your_scenario, mode='lines+markers',
-        name='당신의 정책 시나리오', line=dict(color='#4ecdc4', width=4),
-        marker=dict(size=10)
-    ))
-    
-    # 위험선
-    fig_sim.add_hline(y=30, line_dash="dash", line_color="red",
-                     annotation_text="⚠️ 위험 임계점")
-    
-    fig_sim.update_layout(
-        title='🎯 당신의 정책이 만든 미래 시나리오',
-        xaxis_title='연도', yaxis_title='해수면 상승 (cm)',
-        height=450, hovermode='x unified',
-        plot_bgcolor='rgba(0,0,0,0)',
-        paper_bgcolor='rgba(0,0,0,0)'
-    )
-    
-    st.plotly_chart(fig_sim, use_container_width=True)
-
-    # 결과 메시지
-    if sea_level_2050 < 15:
-        st.markdown(f'''
-        <div class="result-good">
-        🎉 축하합니다! 당신의 탁월한 정책으로 2050년 해수면 상승을 {sea_level_2050:.1f}cm로 제한했습니다!<br>
-        🌟 현재 추세보다 {26-sea_level_2050:.1f}cm나 감축한 놀라운 성과입니다.<br>
-        🏆 당신은 진정한 지구 수호자입니다!
-        </div>
-        ''', unsafe_allow_html=True)
-        st.balloons()
-        
-    elif sea_level_2050 < 20:
-        st.markdown(f'''
-        <div class="result-good">
-        👏 훌륭합니다! 당신의 정책으로 해수면 상승을 {sea_level_2050:.1f}cm로 억제했습니다.<br>
-        🌿 현재 추세보다 {26-sea_level_2050:.1f}cm 감축했으며, 많은 해안 지역을 보호할 수 있습니다.<br>
-        📈 조금만 더 강화하면 더 좋은 결과를 얻을 수 있어요!
-        </div>
-        ''', unsafe_allow_html=True)
-        
-    elif sea_level_2050 < 30:
-        st.markdown(f'''
-        <div class="result-neutral">
-        🤔 보통 수준입니다. 해수면이 {sea_level_2050:.1f}cm 상승할 예정입니다.<br>
-        ⚠️ 일부 해안 지역에서 침수 위험이 있을 수 있습니다.<br>
-        💪 더 적극적인 정책이 필요합니다. 탄소 감축과 재생에너지를 늘려보세요!
-        </div>
-        ''', unsafe_allow_html=True)
-        
-    else:
-        st.markdown(f'''
-        <div class="result-bad">
-        🚨 위험합니다! 해수면이 {sea_level_2050:.1f}cm나 상승할 예정입니다.<br>
-        ⛔ 많은 해안 지역이 침수될 위험이 높습니다.<br>
-        🔥 지금 당장 모든 정책을 최대한 강화해야 합니다!
-        </div>
-        ''', unsafe_allow_html=True)
-
-    # 상세 분석
-    with st.expander("📈 상세 정책 효과 분석"):
-        st.markdown("### 정책별 기여도")
-        
-        effect_data = {
-            '정책': ['탄소 감축', '재생에너지', '탄소세', '추가 정책'],
-            '효과': [
-                -(carbon_reduction * 0.15),
-                -(renewable_energy * 0.08), 
-                -(carbon_tax / 10000 * 0.8),
-                -len(policies) * 0.5
-            ]
-        }
-        
-        fig_effect = px.bar(
-            pd.DataFrame(effect_data), x='정책', y='효과',
-            color='효과', color_continuous_scale='RdYlGn',
-            title='각 정책이 해수면 상승에 미친 영향 (cm)'
-        )
-        st.plotly_chart(fig_effect, use_container_width=True)
-        
-        st.markdown("### 💡 개선 제안")
-        suggestions = []
-        if carbon_reduction < 60:
-            suggestions.append("🏭 탄소 감축 목표를 더 높여보세요")
-        if renewable_energy < 80:
-            suggestions.append("⚡ 재생에너지 비율을 늘려보세요")  
-        if len(policies) < 4:
-            suggestions.append("📋 더 많은 추가 정책을 선택해보세요")
-        if sea_wall_investment < 30:
-            suggestions.append("🌊 해안 방어시설 투자를 늘려보세요")
-            
-        if suggestions:
-            for suggestion in suggestions:
-                st.info(suggestion)
-        else:
-            st.success("🎉 모든 정책이 최적화되었습니다!")
-
-    # 재시작 버튼
-    if st.button("🔄 다시 도전하기", type="primary"):
-        st.rerun()
-
-    # 공유 기능
-    st.markdown("### 📤 결과 공유하기")
-    share_text = f"""
-🌊 해수면 상승 시뮬레이션 결과 🌊
-
-내 정책 결과: 2050년 {sea_level_2050:.1f}cm 상승
-등급: {grade}
-적응 점수: {adaptation_score:.1f}점
-
-#기후변화 #해수면상승 #환경정책
-"""
-    
-    col1, col2 = st.columns(2)
-    with col1:
-        st.text_area("결과 텍스트", share_text, height=120)
-    with col2:
-        st.markdown("**SNS 공유하기**")
-        st.markdown("📱 위 텍스트를 복사해서 SNS에 공유해보세요!")
-        st.markdown("🏆 친구들과 누가 더 좋은 정책을 세울 수 있는지 경쟁해보세요!")
-
-# ========================
 # 💡 우리가 할 수 있는 일 (개선된 버전)
-# ========================
-st.markdown("---")  
+st.markdown("---")  # 구분선 추가
 st.subheader("💡 우리가 할 수 있는 일")
 st.markdown("##### 기후변화 대응을 위한 청소년 실천 가이드 ✨")
 
@@ -717,6 +351,51 @@ action_categories = {
         ("환경 친화적 소비 실천하기", "eco_consumption")
     ]
 }
+
+# CSS 스타일 추가
+st.markdown("""
+<style>
+.checklist-container {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    padding: 20px;
+    border-radius: 15px;
+    border: 2px solid #38bdf8;
+    margin: 10px 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.category-header {
+    color: #0369a1;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #38bdf8;
+    padding-bottom: 5px;
+}
+.completed-item {
+    background-color: #dcfce7;
+    color: #15803d;
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin: 5px 0;
+    border-left: 4px solid #22c55e;
+    text-decoration: line-through;
+    opacity: 0.8;
+}
+.pending-item {
+    background-color: #ffffff;
+    color: #1e40af;
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin: 5px 0;
+    border-left: 4px solid #3b82f6;
+    transition: all 0.3s ease;
+}
+.pending-item:hover {
+    background-color: #f0f9ff;
+    transform: translateX(5px);
+}
+</style>
+""", unsafe_allow_html=True)
 
 # 진행률 계산
 total_items = sum(len(items) for items in action_categories.values())
@@ -783,7 +462,6 @@ if completed_count > 0:
 
 if completed_count >= total_items:
     st.balloons()  # 모든 항목 완료 시 축하 효과
-
 # ========================
 # 사이드바
 # ========================
@@ -802,12 +480,3 @@ with st.sidebar:
     이 대시보드는 고등학생 기후변화 연구 프로젝트의 일환으로 제작되었습니다.  
     최종 업데이트: 2024.12
     """)
-    
-    # 게임 랭킹 (사이드바에 추가)
-    st.markdown("### 🏆 오늘의 베스트 플레이어")
-    st.markdown("""
-    1. 🥇 김환경: 12.3cm (지구수호자)
-    2. 🥈 이기후: 14.8cm (지구수호자)  
-    3. 🥉 박지구: 16.2cm (환경지킴이)
-    """)
-    st.caption("* 실제 데이터가 아닌 예시입니다")
